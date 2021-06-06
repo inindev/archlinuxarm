@@ -37,22 +37,21 @@ Replace **sdX** in the following instructions with the device name for the SD ca
        bsdtar -xpf ArchLinuxARM-aarch64-latest.tar.gz -C root
        ```
 
-   7. Download the boot.scr script for U-Boot and place it in the /boot directory:
+   7. Download and extract the boot filesystem (as root, not via sudo):
        ```
-       wget http://os.archlinuxarm.org/os/rockchip/boot/rock64/boot.scr -O root/boot/boot.scr
+       wget https://github.com/inindev/archlinuxarm/raw/release/uboot-nanopi-r4s-2021.04-1-aarch64.pkg.tar.xz
+       bsdtar -xf uboot-nanopi-r4s-2021.04-1-aarch64.pkg.tar.xz -C root
        ```
 
-   8. Unmount the partition:
+   8. Install the U-Boot bootloader:
+       ```
+       dd if=root/boot/rksd_loader.img of=/dev/sdX seek=64 conv=notrunc
+       dd if=root/boot/u-boot.itb of=/dev/sdX seek=16384 conv=notrunc
+       ```
+
+   9. Unmount the partition:
        ```
        umount root
-       ```
-
-   9. Download and install the U-Boot bootloader:
-       ```
-       wget http://os.archlinuxarm.org/os/rockchip/boot/rock64/rksd_loader.img
-       wget http://os.archlinuxarm.org/os/rockchip/boot/rock64/u-boot.itb
-       dd if=rksd_loader.img of=/dev/sdX seek=64 conv=notrunc
-       dd if=u-boot.itb of=/dev/sdX seek=16384 conv=notrunc
        ```
 
    10. Insert the micro SD card into the Nanopi R4s, connect ethernet, and apply 5V power.
@@ -67,16 +66,7 @@ Replace **sdX** in the following instructions with the device name for the SD ca
        pacman-key --populate archlinuxarm
        ```
 
-### Install the U-Boot package
-   1. Remove the boot.scr file manually downloaded previously:
+   13. Sync the pacman database and update.
        ```
-       rm /boot/boot.scr
+       pacman -Syyu
        ```
-
-   2. Install the U-Boot package:
-       ```
-       pacman -U uboot-nanopi-r4s-2021.04-1-aarch64.pkg.tar.xz
-       ```
-
-   3. When prompted, press **y** and hit enter to write the latest bootloader to the micro SD card.
-
