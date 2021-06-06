@@ -37,36 +37,42 @@ Replace **sdX** in the following instructions with the device name for the SD ca
        bsdtar -xpf ArchLinuxARM-aarch64-latest.tar.gz -C root
        ```
 
-   7. Download and extract the boot filesystem (as root, not via sudo):
+   7. Download and extract the u-boot binaries (as root, not via sudo):
        ```
        wget https://github.com/inindev/archlinuxarm/raw/release/uboot-nanopi-r4s-2021.04-1-aarch64.pkg.tar.xz
        bsdtar -xf uboot-nanopi-r4s-2021.04-1-aarch64.pkg.tar.xz -C root
        ```
 
-   8. Install the U-Boot bootloader:
+   8. Dounload and install the Nanopi R4s device tree binary:
+       ```
+       wget https://github.com/inindev/archlinuxarm/raw/release/rk3399-nanopi-r4s.dtb
+       mv rk3399-nanopi-r4s.dtb root/boot/dtbs/rockchip
+       ```
+
+   9. Install the U-Boot bootloader:
        ```
        dd if=root/boot/rksd_loader.img of=/dev/sdX seek=64 conv=notrunc
        dd if=root/boot/u-boot.itb of=/dev/sdX seek=16384 conv=notrunc
        ```
 
-   9. Unmount the partition:
+   10. Unmount the partition:
        ```
        umount root
        ```
 
-   10. Insert the micro SD card into the Nanopi R4s, connect ethernet, and apply 5V power.
+   11. Insert the micro SD card into the Nanopi R4s, connect ethernet, and apply 5V power.
 
-   11. Use the serial console or SSH to the IP address given to the board by your router.
+   12. Use the serial console or SSH to the IP address given to the board by your router.
        - Login as the default user _alarm_ with the password _alarm_.
        - The default root password is _root_.
 
-   12. Initialize the pacman keyring and populate the Arch Linux ARM [package signing](https://archlinuxarm.org/about/package-signing) keys:
+   13. Initialize the pacman keyring and populate the Arch Linux ARM [package signing](https://archlinuxarm.org/about/package-signing) keys:
        ```
        pacman-key --init
        pacman-key --populate archlinuxarm
        ```
 
-   13. Sync the pacman database and update.
+   14. Sync the pacman database and update.
        ```
        pacman -Syyu
        ```
