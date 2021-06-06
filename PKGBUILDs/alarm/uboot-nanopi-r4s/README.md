@@ -43,7 +43,7 @@ Replace **sdX** in the following instructions with the device name for the SD ca
        bsdtar -xf uboot-nanopi-r4s-2021.04-1-aarch64.pkg.tar.xz -C root
        ```
 
-   8. Dounload and install the Nanopi R4s device tree binary:
+   8. Download and install the Nanopi R4s device tree binary:
        ```
        wget https://github.com/inindev/archlinuxarm/raw/release/rk3399-nanopi-r4s.dtb
        mv rk3399-nanopi-r4s.dtb root/boot/dtbs/rockchip
